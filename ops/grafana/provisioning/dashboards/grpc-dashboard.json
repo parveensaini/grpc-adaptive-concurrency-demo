@@ -1,0 +1,91 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "RPS (requests/sec)",
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(grpc_server_requests_total[1m]))",
+          "legendFormat": "rps"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Error Rate (errors/sec)",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(grpc_server_errors_total[1m]))",
+          "legendFormat": "errors/sec"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Inflight Requests",
+      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(grpc_server_inflight)",
+          "legendFormat": "inflight"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Latency p95 (ms) - OK",
+      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(grpc_server_latency_ms_bucket{status=\"OK\"}[1m])))",
+          "legendFormat": "p95 OK"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Latency p95 (ms) - Errors",
+      "gridPos": { "x": 0, "y": 16, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(grpc_server_latency_ms_bucket{status!=\"OK\"}[1m])))",
+          "legendFormat": "p95 errors"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Latency p50 (ms) - OK",
+      "gridPos": { "x": 12, "y": 16, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.50, sum by (le) (rate(grpc_server_latency_ms_bucket{status=\"OK\"}[1m])))",
+          "legendFormat": "p50 OK"
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": ["grpc", "prometheus"],
+  "templating": { "list": [] },
+  "time": { "from": "now-15m", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "gRPC Server Metrics",
+  "version": 1
+}
