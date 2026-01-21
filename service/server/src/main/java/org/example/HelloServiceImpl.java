@@ -52,8 +52,9 @@ public final class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBas
         try {
             Metrics.HELLO_EXEC_QUEUE.set(EXEC.getQueue().size());
             Metrics.HELLO_EXEC_ACTIVE.set(EXEC.getActiveCount());
-            Metrics.DRL_VEGAS_LIMIT.labelValues("vegas_limit").set(HelloServer.drlInterceptor.vegasLimit.getLimit());
-
+            if (HelloServer.drlInterceptor.vegasLimit != null) {
+                Metrics.DRL_VEGAS_LIMIT.labelValues("vegas_limit").set(HelloServer.drlInterceptor.vegasLimit.getLimit());
+            }
             EXEC.execute(() -> handle(request, responseObserver));
 
         } catch (RejectedExecutionException rejected) {
