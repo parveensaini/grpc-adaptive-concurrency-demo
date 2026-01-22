@@ -37,7 +37,7 @@ public final class HelloServer {
 
 
         Server server = NettyServerBuilder.forPort(grpcPort)
-                .addService(ServerInterceptors.intercept(service,/* drlInterceptor.getInterceptor(),*/ new GrpcMetricsInterceptor()))
+                .addService(ServerInterceptors.intercept(service, drlInterceptor.getInterceptor(), new GrpcMetricsInterceptor()))
                 //.executor(executor)
                 .build()
                 .start();
